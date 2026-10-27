@@ -134,5 +134,5 @@ Native-speaker review: ask one Swahili speaker to read all SW strings before rec
 ## 10. Accessibility & low-end device
 
 - WCAG AA contrast, focus rings, labels on inputs, `aria-live="polite"` on streaming verdict.
-- Page weight target < 250 KB JS on first load; no heavy animation libraries.
+- Page weight discipline (amended 2026-10-27 at operator direction): GSAP and Three.js are allowed only as route-level dynamic imports. Three.js lives only inside the Studio machine surface and never in landing or dashboard initial JS. Other routes keep the light target; bundle figures are recorded per route in the spec and PR body.
 - Works with 360 px width screens; large tap targets; offline banner.

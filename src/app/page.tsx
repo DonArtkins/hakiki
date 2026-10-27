@@ -1,5 +1,2 @@
-import { CheckForm } from "@/components/CheckForm";
-
-export default function HomePage() {
-  return <CheckForm />;
-}
+import { Landing } from "@/components/Landing";
+export default function HomePage() { return <Landing />; }

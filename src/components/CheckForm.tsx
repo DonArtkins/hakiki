@@ -8,6 +8,7 @@ import { t } from "@/lib/i18n";
 import { SegmentedControl, SeverityDot, StageStepper, type StepState } from "./ui";
 import { VerdictCard } from "./VerdictCard";
 import { useLocale } from "./LocaleProvider";
+import type { MachineState } from "./machine-state";
 
 type Stage = "extracting" | "rules" | "reasoning";
 const STAGE_ORDER: Stage[] = ["extracting", "rules", "reasoning"];
@@ -35,9 +36,9 @@ function Highlighted({ text, spans }: { text: string; spans: Span[] }) {
   );
 }
 
-export function CheckForm() {
+export function CheckForm({ variant = "page", initialText = "", onMachineState, onDone }: { variant?: "page" | "studio"; initialText?: string; onMachineState?: (s: MachineState) => void; onDone?: () => void } = {}) {
   const { locale, setLocale } = useLocale();
-  const [text, setText] = useState("");
+  const [text, setText] = useState(initialText);
   const [imageName, setImageName] = useState("");
   const [imageReading, setImageReading] = useState(false);
   const imageRef = useRef<string>("");
@@ -52,6 +53,16 @@ export function CheckForm() {
   const [busy, setBusy] = useState(false);
   const [online, setOnline] = useState(true);
   const [actionNote, setActionNote] = useState("");
+
+  useEffect(() => { setText(initialText); setVerdict(null); setRules(null); setStages([]); setError(""); setCheckId(null); }, [initialText]);
+
+  useEffect(() => {
+    if (!onMachineState) return;
+    if (error && !verdict) onMachineState({ stage: "error", risk: null });
+    else if (verdict) onMachineState({ stage: "verdict", risk: verdict.risk });
+    else if (stages.length) onMachineState({ stage: stages[stages.length - 1], risk: null });
+    else onMachineState({ stage: "idle", risk: null });
+  }, [stages, verdict, error, onMachineState]);
 
   useEffect(() => {
     const update = () => setOnline(navigator.onLine);
@@ -116,7 +127,7 @@ export function CheckForm() {
           if (event.type === "stage" && event.stage) setStages((s) => [...new Set([...s, event.stage as Stage])]);
           if (event.type === "rules") { setRules({ findings: event.findings ?? [], priorScore: event.priorScore ?? 0, spans: event.spans ?? [] }); setSpans(event.spans ?? []); }
           if (event.type === "verdict" && event.verdict) { gotVerdict = true; setVerdict(event.verdict); if (event.spans?.length) setSpans(event.spans); if (event.verdict.risk === "high" && "vibrate" in navigator && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) navigator.vibrate(40); }
-          if (event.type === "done" && event.checkId) setCheckId(event.checkId);
+          if (event.type === "done" && event.checkId) { setCheckId(event.checkId); onDone?.(); }
           if (event.type === "error") { gotError = true; setError(event.error?.message ?? t(locale, "error.generic")); }
         }
       }
@@ -158,6 +169,7 @@ export function CheckForm() {
 
   return (
     <div>
+      {variant === "page" ? (
       <div style={{ display: "flex", justifyContent: "space-between", gap: 12, alignItems: "flex-start", flexWrap: "wrap" }}>
         <div style={{ maxWidth: 620 }}>
           <h1 className="display" style={{ fontSize: 36, lineHeight: 1.1, margin: "0 0 8px" }}>{t(locale, "brand.tagline")}</h1>
@@ -165,6 +177,7 @@ export function CheckForm() {
         </div>
         <SegmentedControl label="Language" value={locale} onChange={setLocale} disabled={busy} options={[{ value: "en", label: "EN" }, { value: "sw", label: "SW" }]} />
       </div>
+      ) : null}
 
       <form onSubmit={submit} className="card" style={{ padding: 20, marginTop: 20 }}>
         <label htmlFor="message" style={{ fontWeight: 700 }}>{t(locale, "home.label")}</label>

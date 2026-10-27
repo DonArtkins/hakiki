@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Fraunces, Inter } from "next/font/google";
-import { LocaleProvider, SiteFooter, SiteHeader } from "@/components/LocaleProvider";
+import { LocaleProvider } from "@/components/LocaleProvider";
+import { AppShell } from "@/components/AppShell";
 
 const display = Fraunces({ subsets: ["latin"], weight: ["600", "700"], variable: "--font-display" });
 const sans = Inter({ subsets: ["latin"], variable: "--font-sans" });
@@ -12,16 +13,15 @@ export const metadata: Metadata = {
   manifest: "/manifest.webmanifest",
 };
 
+const themeInit = `try{var t=localStorage.getItem('hakiki-theme');if(t)document.documentElement.dataset.theme=t;}catch(e){}`;
+
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${display.variable} ${sans.variable}`}>
+    <html lang="en" className={`${display.variable} ${sans.variable}`} suppressHydrationWarning>
+      <head><script dangerouslySetInnerHTML={{ __html: themeInit }} /></head>
       <body>
         <LocaleProvider>
-          <div className="app-frame">
-            <SiteHeader />
-            <main className="page">{children}</main>
-            <SiteFooter />
-          </div>
+          <AppShell>{children}</AppShell>
         </LocaleProvider>
       </body>
     </html>
