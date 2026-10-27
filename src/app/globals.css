@@ -14,8 +14,6 @@
   --color-unclear: var(--unclear);
   --color-highlight: var(--highlight);
   --color-border: var(--border);
-  --font-display: var(--font-display);
-  --font-sans: var(--font-sans);
 }
 
 /* Hakiki tokens: single source (docs/07 + design.md provenance).
@@ -55,6 +53,11 @@
   --highlight: #5A4A12; --border: #2A3630; --border-strong: #3D4A42;
 }
 * { box-sizing: border-box; }
+.sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+/* File input stays keyboard-focusable inside its label; the label shows the focus ring */
+.file-input { position: absolute; width: 1px; height: 1px; opacity: 0; }
+label:has(.file-input:focus-visible) { outline: 3px solid var(--brand); outline-offset: 2px; }
+label:has(.file-input:disabled) { opacity: .45; cursor: not-allowed; }
 html { background: var(--canvas-inset); }
 body { margin: 0; background: var(--canvas-inset); color: var(--ink); font-family: var(--font-sans); font-size: 16px; line-height: 1.55; }
 a { color: var(--brand); }

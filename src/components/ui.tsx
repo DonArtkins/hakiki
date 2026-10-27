@@ -25,30 +25,31 @@ export function RiskBadge({ risk, label }: { risk: Risk; label: string }) {
   return <span className="risk-badge" style={{ color }}><RiskIcon risk={risk} />{label}</span>;
 }
 
-export function SegmentedControl<T extends string>({ label, value, options, onChange }: {
-  label: string; value: T; options: Array<{ value: T; label: string }>; onChange: (v: T) => void;
+export function SegmentedControl<T extends string>({ label, value, options, onChange, disabled = false }: {
+  label: string; value: T; options: Array<{ value: T; label: string }>; onChange: (v: T) => void; disabled?: boolean;
 }) {
   return (
     <div className="segmented" role="group" aria-label={label}>
       {options.map((o) => (
-        <button key={o.value} type="button" aria-pressed={value === o.value} onClick={() => onChange(o.value)}>{o.label}</button>
+        <button key={o.value} type="button" aria-pressed={value === o.value} disabled={disabled} onClick={() => onChange(o.value)}>{o.label}</button>
       ))}
     </div>
   );
 }
 
 export type StepState = "done" | "active" | "pending";
-export function StageStepper({ steps }: { steps: Array<{ label: string; state: StepState }> }) {
+export function StageStepper({ steps }: { steps: Array<{ label: string; state: StepState; stateLabel: string }> }) {
   return (
     <ol className="stepper" aria-live="polite">
       {steps.map((s) => (
-        <li key={s.label} data-state={s.state}>
+        <li key={s.label} data-state={s.state} aria-current={s.state === "active" ? "step" : undefined}>
           <span className="step-dot" aria-hidden="true">
             {s.state === "done" ? (
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M4 12.5 9.5 18 20 6" stroke="currentColor" strokeWidth="3.4" strokeLinecap="round" strokeLinejoin="round" /></svg>
             ) : s.state === "active" ? <span className="spinner" /> : null}
           </span>
           {s.label}
+          <span className="sr-only">({s.stateLabel})</span>
         </li>
       ))}
     </ol>
@@ -66,13 +67,24 @@ export function StripedMeter({ value, color, label }: { value: number; color: st
   );
 }
 
-export function SeverityDot({ severity }: { severity: "critical" | "high" | "medium" | "low" }) {
+// Severity differs by shape as well as colour, and the word is read to assistive tech.
+export function SeverityDot({ severity, label }: { severity: "critical" | "high" | "medium" | "low"; label: string }) {
   const map = {
-    critical: { bg: "var(--danger-soft)", fg: "var(--danger-text)", mark: "!" },
-    high: { bg: "var(--danger-soft)", fg: "var(--danger-text)", mark: "!" },
-    medium: { bg: "var(--warn-soft)", fg: "var(--warn-text)", mark: "!" },
-    low: { bg: "var(--unclear-soft)", fg: "var(--unclear-text)", mark: "i" },
+    critical: { bg: "var(--danger-soft)", fg: "var(--danger-text)" },
+    high: { bg: "var(--danger-soft)", fg: "var(--danger-text)" },
+    medium: { bg: "var(--warn-soft)", fg: "var(--warn-text)" },
+    low: { bg: "var(--unclear-soft)", fg: "var(--unclear-text)" },
   } as const;
   const s = map[severity];
-  return <span className="sev-dot" style={{ background: s.bg, color: s.fg, fontWeight: 800, fontSize: 13 }} aria-hidden="true">{s.mark}</span>;
+  return (
+    <span className="sev-dot" style={{ background: s.bg, color: s.fg }}>
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        {severity === "critical" ? (<><path d="M8 3h8l5 5v8l-5 5H8l-5-5V8Z" stroke="currentColor" strokeWidth="2" strokeLinejoin="round" /><path d="M12 8v5" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" /><circle cx="12" cy="16.4" r="1.2" fill="currentColor" /></>)
+          : severity === "high" ? (<><path d="M12 4 21 20H3Z" stroke="currentColor" strokeWidth="2" strokeLinejoin="round" /><path d="M12 10v4.4" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" /><circle cx="12" cy="17.2" r="1.2" fill="currentColor" /></>)
+          : severity === "medium" ? (<><circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="2" /><path d="M12 8v5" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" /><circle cx="12" cy="16.4" r="1.2" fill="currentColor" /></>)
+          : (<><circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="2" /><path d="M12 11v5" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" /><circle cx="12" cy="8" r="1.2" fill="currentColor" /></>)}
+      </svg>
+      <span className="sr-only">{label}</span>
+    </span>
+  );
 }

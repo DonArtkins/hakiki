@@ -24,7 +24,7 @@ export function VerdictCard({ verdict, locale }: { verdict: Verdict; locale?: Lo
       <h3 className="eyebrow" style={{ marginTop: 20 }}>{t(loc, "verdict.why")}</h3>
       <ul className="evidence-list">
         {verdict.reasons.map((r, i) => (
-          <li key={i}><SeverityDot severity={r.severity} /><span>{r.text}</span></li>
+          <li key={i}><SeverityDot severity={r.severity} label={t(loc, `severity.${r.severity}`)} /><span>{r.text}</span></li>
         ))}
       </ul>
       <h3 className="eyebrow" style={{ marginTop: 20 }}>{t(loc, "verdict.next")}</h3>
