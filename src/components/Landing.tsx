@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { useRef } from "react";
+import { Fragment, useRef } from "react";
 import { SAMPLES } from "@/lib/samples";
 import { t } from "@/lib/i18n";
 import { Logo } from "./ui";
@@ -23,7 +23,7 @@ export function Landing() {
           <p className="eyebrow">{t(locale, "landing.kicker")}</p>
           <h1 className="display landing-title" aria-label={headline}>
             {words.map((w, i) => (
-              <span key={i} data-hero="word" className="hero-word" aria-hidden="true">{w}{i < words.length - 1 ? " " : ""}</span>
+              <Fragment key={i}><span data-hero="word" className="hero-word" aria-hidden="true">{w}</span>{i < words.length - 1 ? " " : ""}</Fragment>
             ))}
           </h1>
           <p className="landing-lede" data-hero="lede">{t(locale, "landing.lede")}</p>
