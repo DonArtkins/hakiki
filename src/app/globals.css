@@ -31,8 +31,7 @@
   --shadow-3: 0 24px 64px rgb(16 24 32 / .18);
   --radius-card: 16px; --radius-sheet: 20px; --radius-input: 12px;
   --motion-fast: 150ms; --motion-medium: 250ms; --ease-out: cubic-bezier(.2, .7, .3, 1);
-  --font-display: "Fraunces", Georgia, serif;
-  --font-sans: Inter, ui-sans-serif, system-ui, sans-serif;
+  /* Font families come from next/font variables on <html>; never redeclare them here. */
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {

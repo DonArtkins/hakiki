@@ -43,3 +43,9 @@ export function SiteFooter() {
     </footer>
   );
 }
+
+// Server pages render this so their plain notices follow the chosen language too.
+export function LocalizedText({ k, muted = false }: { k: string; muted?: boolean }) {
+  const { locale } = useLocale();
+  return <p style={muted ? { color: "var(--muted)", maxWidth: 620 } : undefined}>{t(locale, k)}</p>;
+}

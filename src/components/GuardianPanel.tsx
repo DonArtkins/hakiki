@@ -28,13 +28,18 @@ export function GuardianPanel() {
   }
   useEffect(() => { void refresh(); }, []);
 
+  function errText(code: string | undefined, fallbackKey: string): string {
+    if (code === "internal") return t(locale, "guardian.errInternal");
+    return t(locale, fallbackKey);
+  }
+
   async function invite() {
     setBusy(true);
     try {
       const res = await fetch("/api/guardians/invite", { method: "POST" });
-      const data = (await res.json()) as { code?: string; error?: { message: string } };
+      const data = (await res.json()) as { code?: string; error?: { code?: string; message: string } };
       if (data.code) { setCode(data.code); setMessage(t(locale, "guardian.codeShare")); }
-      else setMessage(data.error?.message ?? t(locale, "guardian.createFailed"));
+      else setMessage(errText(data.error?.code, "guardian.createFailed"));
     } catch { setMessage(t(locale, "guardian.createFailedConn")); } finally { setBusy(false); }
   }
 
@@ -42,8 +47,8 @@ export function GuardianPanel() {
     setBusy(true);
     try {
       const res = await fetch("/api/guardians/accept", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ code: acceptCode }) });
-      const data = (await res.json()) as { ok?: boolean; error?: { message: string } };
-      setMessage(data.ok ? t(locale, "guardian.linked") : data.error?.message ?? t(locale, "guardian.acceptFailed"));
+      const data = (await res.json()) as { ok?: boolean; error?: { code?: string; message: string } };
+      setMessage(data.ok ? t(locale, "guardian.linked") : errText(data.error?.code, "guardian.acceptFailed"));
       if (data.ok) void refresh();
     } catch { setMessage(t(locale, "guardian.acceptFailedConn")); } finally { setBusy(false); }
   }

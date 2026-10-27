@@ -41,6 +41,7 @@ export function CheckForm() {
   const [imageName, setImageName] = useState("");
   const [imageReading, setImageReading] = useState(false);
   const imageRef = useRef<string>("");
+  const readGenRef = useRef(0);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [stages, setStages] = useState<Stage[]>([]);
   const [rules, setRules] = useState<RulesEvent | null>(null);
@@ -62,6 +63,7 @@ export function CheckForm() {
 
   async function onFile(file: File | undefined) {
     if (!file) return;
+    const gen = ++readGenRef.current;
     setImageReading(true);
     const dataUrl = await new Promise<string>((resolve, reject) => {
       const r = new FileReader();
@@ -69,6 +71,7 @@ export function CheckForm() {
       r.onerror = () => reject(new Error("read failed"));
       r.readAsDataURL(file);
     }).catch(() => "");
+    if (gen !== readGenRef.current) return; // a newer pick or a reset superseded this read
     setImageReading(false);
     if (!dataUrl) { setError(t(locale, "error.imageRead")); return; }
     imageRef.current = dataUrl;
@@ -76,6 +79,8 @@ export function CheckForm() {
   }
 
   function removeImage() {
+    readGenRef.current += 1;
+    setImageReading(false);
     setImageName(""); imageRef.current = "";
     if (fileInputRef.current) fileInputRef.current.value = "";
   }
@@ -93,6 +98,7 @@ export function CheckForm() {
     let gotError = false;
     try {
       const res = await fetch("/api/check", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ text, imageDataUrl: imageRef.current || undefined, locale }) });
+      if (res.status === 429) { setError(t(locale, "error.rateLimited")); return; }
       if (!res.ok || !res.body) throw new Error("failed");
       const reader = res.body.getReader();
       const decoder = new TextDecoder();
@@ -217,7 +223,7 @@ export function CheckForm() {
 
       {verdict ? (
         <div style={{ marginTop: 16 }}>
-          <VerdictCard verdict={verdict} locale={locale} />
+          <VerdictCard verdict={verdict} />
           {checkId ? (
             <div style={{ display: "flex", gap: 10, flexWrap: "wrap", marginTop: 14 }}>
               <a className="btn-primary" href="tel:333" style={{ textDecoration: "none" }}>

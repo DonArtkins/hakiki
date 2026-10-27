@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
+import "./globals.css";
 import { Fraunces, Inter } from "next/font/google";
 import { LocaleProvider, SiteFooter, SiteHeader } from "@/components/LocaleProvider";
-import "./globals.css";
 
 const display = Fraunces({ subsets: ["latin"], weight: ["600", "700"], variable: "--font-display" });
 const sans = Inter({ subsets: ["latin"], variable: "--font-sans" });
