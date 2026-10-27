@@ -30,3 +30,16 @@ check history only, and the Studio where boldness is spent in one place: the liv
 Machine. Animation discipline (operator direction): GSAP and Three.js only as route-level
 dynamic imports, Three.js only inside the Studio machine surface, never in landing or
 dashboard initial JS. Transform and opacity only; reduced motion keeps the same order.
+
+## Premium experience (F04, Calm Guardian Evolved)
+
+Landing keeps the warm paper identity and gains artefact density: the headline rises word by
+word, the sample artefact carries evidence marks in place, and below-fold sections reveal with
+ScrollTrigger in reading order. No centred hero pair, no identical card trio, no invented proof.
+The shell groups links under Check, Review and Care, shows the real check count from
+GET /api/checks and the live service dot from GET /api/health. The dashboard leads with one
+verdict story (total, latest time, mix bar with words) then a bento pair (per-day columns and
+type list) and the ledger table. Boldness stays in one place: the Studio machine panel on
+canvas inset with orbit rings and stage chips that name the running check in words. Every
+animation is labelled guides, confirms or explains in the spec; state colour never becomes
+brand colour.

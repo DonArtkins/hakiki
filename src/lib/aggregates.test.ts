@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { checksPerDay, countByRisk, countByType, summary, type CheckRow } from "./aggregates";
+import { checksPerDay, countByRisk, countByType, riskMix, summary, type CheckRow } from "./aggregates";
 const rows: CheckRow[] = [
   { id: "1", risk: "high", scamTypeId: "fake_reversal", language: "en", createdAt: "2026-10-27T10:00:00.000Z" },
   { id: "2", risk: "safe", scamTypeId: null, language: "sw", createdAt: "2026-10-27T11:00:00.000Z" },
@@ -10,4 +10,5 @@ describe("aggregates", () => {
   it("groups per day sorted", () => { expect(checksPerDay(rows)).toEqual([{ day: "2026-10-26", count: 1 }, { day: "2026-10-27", count: 2 }]); });
   it("counts types", () => { expect(countByType(rows)[0]).toEqual({ type: "fake_reversal", count: 2 }); });
   it("summarises empty", () => { expect(summary([]).total).toBe(0); expect(summary([]).latest).toBeNull(); });
+  it("mix percent follows counts", () => { expect(riskMix(rows).find((m) => m.risk === "high")?.pct).toBe(67); expect(riskMix([]).every((m) => m.pct === 0)).toBe(true); });
 });
