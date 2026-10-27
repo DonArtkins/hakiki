@@ -11,6 +11,10 @@ export const metadata: Metadata = {
   title: "Hakiki: Check before you send",
   description: "Scam-verification agent for Kenyan mobile-money users.",
   manifest: "/manifest.webmanifest",
+  icons: {
+    icon: [ { url: "/logo.svg", type: "image/svg+xml" }, { url: "/icon-192.png", sizes: "192x192", type: "image/png" } ],
+    apple: "/apple-touch-icon.png",
+  },
 };
 
 const themeInit = `try{var t=localStorage.getItem('hakiki-theme');if(t)document.documentElement.dataset.theme=t;}catch(e){}`;

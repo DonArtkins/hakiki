@@ -22,3 +22,12 @@ export function summary(rows: CheckRow[]) {
   const by = countByRisk(rows);
   return { total: rows.length, high: by.high ?? 0, suspicious: by.suspicious ?? 0, safe: by.safe ?? 0, unclear: by.unclear ?? 0, latest: rows[0]?.createdAt ?? null };
 }
+export function riskMix(rows: CheckRow[]): Array<{ risk: string; count: number; pct: number }> {
+  const by = countByRisk(rows);
+  const total = rows.length;
+  return (["safe", "suspicious", "high", "unclear"] as const).map((risk) => ({
+    risk,
+    count: by[risk] ?? 0,
+    pct: total > 0 ? Math.round(((by[risk] ?? 0) / total) * 100) : 0,
+  }));
+}

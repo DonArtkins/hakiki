@@ -30,3 +30,26 @@ check history only, and the Studio where boldness is spent in one place: the liv
 Machine. Animation discipline (operator direction): GSAP and Three.js only as route-level
 dynamic imports, Three.js only inside the Studio machine surface, never in landing or
 dashboard initial JS. Transform and opacity only; reduced motion keeps the same order.
+
+## Logo and brand
+
+The mark is a verified message: a white message bubble with a deep-green check, on a
+deep-green rounded tile. It says what Hakiki does in one glance: a message arrives, Hakiki
+checks it. Files: `public/logo.svg` (source), `public/icon-192.png`, `public/icon-512.png`,
+`public/apple-touch-icon.png`, favicon via `src/app/icon.svg`. The wordmark is Fraunces
+lowercase `hakiki` beside the mark; the landing footer closes with the wordmark at display
+size. Light canvas is clean pale green-white (`--bg` #FBFCFB); dark theme keeps the deep
+canvas. One accent only: brand green. State colours stay state colours, never brand.
+
+## Premium experience (F04, Calm Guardian Evolved)
+
+Landing keeps the pale green-white canvas and gains artefact density: the headline rises word by
+word, the sample artefact carries evidence marks in place, and below-fold sections reveal with
+ScrollTrigger in reading order. No centred hero pair, no identical card trio, no invented proof.
+The shell groups links under Check, Review and Care, shows the real check count from
+GET /api/checks and the live service dot from GET /api/health. The dashboard leads with one
+verdict story (total, latest time, mix bar with words) then a bento pair (per-day columns and
+type list) and the ledger table. Boldness stays in one place: the Studio machine panel on
+canvas inset with orbit rings and stage chips that name the running check in words. Every
+animation is labelled guides, confirms or explains in the spec; state colour never becomes
+brand colour.

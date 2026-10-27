@@ -5,9 +5,9 @@ import type { Risk } from "@/engine/schemas";
 export function Logo({ size = 34 }: { size?: number }) {
   return (
     <svg width={size} height={size} viewBox="0 0 64 64" role="img" aria-label="Hakiki">
-      <path d="M32 4 8 12v18c0 15 10 26 24 30 14-4 24-15 24-30V12L32 4Z" fill="var(--brand)" />
-      <path d="M20 33l8 8 17-18" fill="none" stroke="var(--brand-ink)" strokeWidth="6" strokeLinecap="round" strokeLinejoin="round" />
-      <path d="M22 46l-4 8 10-5" fill="var(--brand)" />
+      <rect x="4" y="4" width="56" height="56" rx="16" fill="var(--brand)" />
+      <path d="M22 17h20a7 7 0 0 1 7 7v10a7 7 0 0 1-7 7H28l-9 8v-8h-1a5 5 0 0 1-3-4.6V24a7 7 0 0 1 7-7Z" fill="var(--brand-ink)" />
+      <path d="M24.5 29l5.5 5.5L40.5 23" fill="none" stroke="var(--brand)" strokeWidth="4.5" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   );
 }
