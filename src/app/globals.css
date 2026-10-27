@@ -20,7 +20,7 @@
    Grammar borrowed from inspo P1/P2: warm canvas, framed sheet, hairline cards with a
    soft rest shadow, pill chips with state-coloured text, striped meters, segmented control. */
 :root {
-  --bg: #FAF8F4; --canvas-inset: #EFEAE1; --surface: #FFFFFF; --surface-subtle: #FBFAF7;
+  --bg: #FBFCFB; --canvas-inset: #EDF3EF; --surface: #FFFFFF; --surface-subtle: #F4F8F5;
   --ink: #14201A; --muted: #5B6B62; --brand: #0F6B4F; --brand-ink: #FFFFFF;
   --safe: #1E8E5A; --safe-text: #157347; --warn: #B7791F; --warn-text: #8F6210;
   --danger: #C0392B; --danger-text: #C0392B; --unclear: #5B6B8C; --unclear-text: #5B6B8C;
@@ -163,7 +163,8 @@ button, input, textarea, select { font: inherit; }
 .nav-link { display: inline-flex; align-items: center; min-height: 48px; padding: 0 14px; border-radius: 999px; color: var(--ink); text-decoration: none; font-size: 14px; border: 1px solid transparent; }
 .nav-link:hover { border-color: var(--border); background: var(--surface-subtle); }
 .page { max-width: 880px; margin: 0 auto; padding: 24px 16px 56px; }
-.site-footer { border-top: 1px solid var(--border); }
+.site-footer { border-top: 1px solid var(--border); overflow: hidden; }
+.footer-wordmark { font-family: var(--font-display); font-weight: 700; font-size: clamp(64px, 14vw, 168px); line-height: .95; letter-spacing: -.02em; color: color-mix(in srgb, var(--brand) 14%, transparent); text-align: center; margin: 8px 0 -0.18em; user-select: none; }
 .site-footer-inner { max-width: 880px; margin: 0 auto; padding: 16px; display: flex; flex-wrap: wrap; gap: 8px 20px; color: var(--muted); font-size: 14px; }
 
 /* Registry primitives */

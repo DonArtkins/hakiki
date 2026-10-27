@@ -31,9 +31,19 @@ Machine. Animation discipline (operator direction): GSAP and Three.js only as ro
 dynamic imports, Three.js only inside the Studio machine surface, never in landing or
 dashboard initial JS. Transform and opacity only; reduced motion keeps the same order.
 
+## Logo and brand
+
+The mark is a verified message: a white message bubble with a deep-green check, on a
+deep-green rounded tile. It says what Hakiki does in one glance: a message arrives, Hakiki
+checks it. Files: `public/logo.svg` (source), `public/icon-192.png`, `public/icon-512.png`,
+`public/apple-touch-icon.png`, favicon via `src/app/icon.svg`. The wordmark is Fraunces
+lowercase `hakiki` beside the mark; the landing footer closes with the wordmark at display
+size. Light canvas is clean pale green-white (`--bg` #FBFCFB); dark theme keeps the deep
+canvas. One accent only: brand green. State colours stay state colours, never brand.
+
 ## Premium experience (F04, Calm Guardian Evolved)
 
-Landing keeps the warm paper identity and gains artefact density: the headline rises word by
+Landing keeps the pale green-white canvas and gains artefact density: the headline rises word by
 word, the sample artefact carries evidence marks in place, and below-fold sections reveal with
 ScrollTrigger in reading order. No centred hero pair, no identical card trio, no invented proof.
 The shell groups links under Check, Review and Care, shows the real check count from

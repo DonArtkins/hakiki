@@ -41,7 +41,10 @@ export function AppShell({ children }: { children: ReactNode }) {
           {controls}
         </header>
         <main>{children}</main>
-        <footer className="site-footer"><div className="landing-foot"><span>{t(locale, "footer.privacy")}</span><span>{t(locale, "disclaimer")}</span></div></footer>
+        <footer className="site-footer">
+          <div className="landing-foot"><span>{t(locale, "footer.privacy")}</span><span>{t(locale, "disclaimer")}</span></div>
+          <p className="footer-wordmark" aria-hidden="true">hakiki</p>
+        </footer>
       </div>
     );
   }

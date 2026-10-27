@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Fragment, useRef } from "react";
 import { SAMPLES } from "@/lib/samples";
 import { t } from "@/lib/i18n";
-import { Logo } from "./ui";
+import { Logo, RiskBadge } from "./ui";
 import { useLocale } from "./LocaleProvider";
 import { useRevealScope } from "@/lib/use-reveal";
 
@@ -35,6 +35,7 @@ export function Landing() {
         <aside className="landing-sample card" data-hero="artefact">
           <div className="sample-head"><Logo size={28} /><h2 className="eyebrow" style={{ margin: 0 }}>{t(locale, "landing.sampleTitle")}</h2></div>
           <p className="sample-text">Confirmed. Ksh 15,000 sent to you by mistake. <mark className="evidence">Please reverse it now</mark> within 30 minutes, <mark className="evidence">tuma kwa hii number 0712345678</mark>. Haraka!</p>
+          <p style={{ margin: "10px 0 0" }}><RiskBadge risk="high" label={t(locale, "verdict.high")} /></p>
           <p className="muted-small">{t(locale, "landing.sampleNote")}</p>
           <Link className="btn-secondary" href={`/studio?sample=${sample.id}`}>{t(locale, "landing.runSample")}</Link>
         </aside>
