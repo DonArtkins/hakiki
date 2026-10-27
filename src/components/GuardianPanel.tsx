@@ -2,13 +2,12 @@
 
 import { useEffect, useState } from "react";
 import { t } from "@/lib/i18n";
-import { SegmentedControl } from "./ui";
 import { useLocale } from "./LocaleProvider";
 
 interface LinkRow { id: string; status: string; wardId: string; guardianId: string }
 
 export function GuardianPanel() {
-  const { locale, setLocale } = useLocale();
+  const { locale } = useLocale();
   const [code, setCode] = useState("");
   const [acceptCode, setAcceptCode] = useState("");
   const [message, setMessage] = useState("");
@@ -65,9 +64,7 @@ export function GuardianPanel() {
           <h1 className="display" style={{ fontSize: 32, lineHeight: 1.15, margin: "0 0 8px" }}>{t(locale, "guardian.title")}</h1>
           <p style={{ color: "var(--muted)", margin: 0 }}>{t(locale, "guardian.intro")}</p>
         </div>
-        <SegmentedControl label="Language" value={locale} onChange={setLocale} options={[{ value: "en", label: "EN" }, { value: "sw", label: "SW" }]} />
       </div>
-
       <section className="card" style={{ padding: 20, marginTop: 20 }}>
         <h2 className="eyebrow">{t(locale, "guardian.inviteTitle")}</h2>
         <button className="btn-primary" type="button" onClick={() => void invite()} disabled={busy} aria-busy={busy}>{t(locale, "guardian.create")}</button>

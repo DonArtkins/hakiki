@@ -21,3 +21,12 @@ Type: Fraunces display + Inter UI via `next/font` (self-hosted); mono only for c
 Components and conventions: `.baseline/docs/ui-registry.md` (private Baseline workspace).
 Verification for UI work: 360/390 px + desktop screenshots, browser-run verdict flow, EN/SW toggle,
 `check_ui_copy.py`, contrast table in the tracker (studio S9).
+
+## Full-screen experience (2026-10-27)
+
+No framed sheet. Landing is full viewport with one orchestrated reveal; the product uses a
+full-viewport sidebar shell (mobile top and bottom bars), a disciplined dashboard from real
+check history only, and the Studio where boldness is spent in one place: the live Hakiki
+Machine. Animation discipline (operator direction): GSAP and Three.js only as route-level
+dynamic imports, Three.js only inside the Studio machine surface, never in landing or
+dashboard initial JS. Transform and opacity only; reduced motion keeps the same order.
