@@ -147,18 +147,23 @@ function outputItemsOf(res: unknown): unknown[] {
   return Array.isArray(out) ? out : [];
 }
 
-async function callModel(input: unknown[], withTools: boolean, opts: AgentOptions, purpose: "agent" | "repair"): Promise<unknown> {
+async function callModel(input: unknown[], withTools: boolean, opts: AgentOptions, purpose: "agent" | "repair", structured = false): Promise<unknown> {
   const started = Date.now();
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), 25_000);
   try {
+    // The provider ignores the JSON schema when tools are attached (returns prose),
+    // so tool turns run unstructured and the verdict call runs structured without tools.
+    // Reasoning tokens count against max_output_tokens: on a real evidence pack,
+    // medium reasoning alone consumed the whole 900 budget and returned empty output,
+    // so the structured verdict call uses low effort with a larger budget.
     const res = await meta().responses.create({
       model: MODELS.reason(),
-      reasoning: { effort: "medium" },
-      max_output_tokens: 900,
+      reasoning: { effort: structured ? "low" : "medium" },
+      max_output_tokens: structured ? 2500 : 900,
       input,
       ...(withTools ? { tools: TOOL_DEFINITIONS, tool_choice: "auto" } : {}),
-      text: { format: { type: "json_schema", name: "verdict", schema: VERDICT_JSON_SCHEMA, strict: false } },
+      ...(structured ? { text: { format: { type: "json_schema", name: "verdict", schema: VERDICT_JSON_SCHEMA, strict: false } } } : {}),
     } as never, { signal: controller.signal } as never);
     const usage = usageOf(res);
     await opts.recordModelCall?.({ purpose, model: MODELS.reason(), usage, costUsd: usage ? costOf(usage) : 0, latencyMs: Date.now() - started });
@@ -182,18 +187,15 @@ export async function runAgent(pack: EvidencePack, opts: AgentOptions = {}): Pro
     for (let turn = 0; turn < 3; turn++) {
       const res = await callModel(input, true, opts, "agent");
       const calls = functionCallsOf(res);
-      lastText = outputTextOf(res);
       if (calls.length === 0) break;
       input.push(...outputItemsOf(res));
       for (const c of calls) {
         const out = await runTool(c.name, c.arguments, pack);
         input.push({ type: "function_call_output", call_id: c.call_id, output: JSON.stringify(out) });
       }
-      if (turn === 2) {
-        const finalRes = await callModel(input, false, opts, "agent");
-        lastText = outputTextOf(finalRes);
-      }
     }
+    const finalRes = await callModel(input, false, opts, "agent", true);
+    lastText = outputTextOf(finalRes);
     try {
       return { verdict: enforceGuards(Verdict.parse(JSON.parse(lastText)), pack), usedModel: true };
     } catch (err) {
@@ -203,7 +205,7 @@ export async function runAgent(pack: EvidencePack, opts: AgentOptions = {}): Pro
         { role: "assistant", content: lastText },
         { role: "user", content: `Your previous output failed validation: ${err instanceof Error ? err.message.slice(0, 300) : "invalid"}. Return corrected JSON only.` },
       ];
-      const repaired = await callModel(repairInput, false, opts, "repair");
+      const repaired = await callModel(repairInput, false, opts, "repair", true);
       return { verdict: enforceGuards(Verdict.parse(JSON.parse(outputTextOf(repaired))), pack), usedModel: true };
     }
   } catch {
