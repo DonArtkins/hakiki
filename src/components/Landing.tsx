@@ -4,6 +4,7 @@ import { Fragment, useRef } from "react";
 import { SAMPLES } from "@/lib/samples";
 import { t } from "@/lib/i18n";
 import { Logo, RiskBadge } from "./ui";
+import { ScrollFilm } from "./ScrollFilm";
 import { useLocale } from "./LocaleProvider";
 import { useRevealScope } from "@/lib/use-reveal";
 
@@ -39,6 +40,14 @@ export function Landing() {
           <p className="muted-small">{t(locale, "landing.sampleNote")}</p>
           <Link className="btn-secondary" href={`/studio?sample=${sample.id}`}>{t(locale, "landing.runSample")}</Link>
         </aside>
+      </section>
+      <ScrollFilm locale={locale} />
+      <section className="landing-section" data-scroll-reveal aria-label={t(locale, "video.title")}>
+        <h2 className="display section-title">{t(locale, "video.title")}</h2>
+        <video className="film-canvas" controls preload="none" poster="/video/poster.jpg" playsInline>
+          <source src="/video/website.webm" type="video/webm" />
+          <source src="/video/website.mp4" type="video/mp4" />
+        </video>
       </section>
       <section className="landing-section" data-scroll-reveal>
         <h2 className="display section-title">{t(locale, "landing.checksTitle")}</h2>

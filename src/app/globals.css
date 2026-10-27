@@ -118,6 +118,11 @@ button, input, textarea, select { font: inherit; }
 .service-line { color: var(--muted); }
 .hero-word { display: inline-block; will-change: transform, opacity; }
 .landing-section { max-width: 1180px; margin: 0 auto; padding: 8px 24px 40px; }
+.film-grid { display: grid; grid-template-columns: 7fr 5fr; gap: 22px; align-items: start; }
+.film-canvas { width: 100%; height: auto; border-radius: var(--radius-card); border: 1px solid var(--border); box-shadow: var(--shadow-2); background: var(--surface); }
+.film-chapter { font-family: var(--font-display); font-size: 24px; font-weight: 600; margin: 4px 0 12px; }
+.film-chapters { margin: 0 0 12px; padding-left: 20px; color: var(--muted); display: grid; gap: 6px; }
+@media (max-width: 760px) { .film-grid { grid-template-columns: 1fr; } }
 .section-title { font-size: 30px; line-height: 1.15; margin: 0 0 16px; }
 .bento-checks { display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 14px; }
 .bento-checks .card, .bento-proof .card { padding: 20px; }
