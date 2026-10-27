@@ -192,20 +192,20 @@ export function CheckForm() {
       {showStepper ? <div style={{ marginTop: 16 }}><StageStepper steps={stepperSteps} /></div> : null}
 
       {error ? (
-        <section role="alert" className="card fade-up" style={{ padding: 18, marginTop: 16, borderColor: "var(--danger)" }}>
+        <section role="alert" className="card" style={{ padding: 18, marginTop: 16, borderColor: "var(--danger)" }}>
           <p style={{ margin: 0 }}>{error}</p>
         </section>
       ) : null}
 
       {text && (rules || verdict) ? (
-        <section className="card fade-up" style={{ padding: 20, marginTop: 16 }}>
+        <section className="card" style={{ padding: 20, marginTop: 16 }}>
           <h2 className="eyebrow">{t(locale, "check.message")}</h2>
           <Highlighted text={text} spans={spans} />
         </section>
       ) : null}
 
       {rules ? (
-        <section className="card fade-up" style={{ padding: 20, marginTop: 16 }}>
+        <section className="card" style={{ padding: 20, marginTop: 16 }}>
           <h2 className="eyebrow">{t(locale, "check.evidence")}</h2>
           {rules.findings.length ? (
             <ul className="evidence-list">

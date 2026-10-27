@@ -13,9 +13,9 @@ export function VerdictCard({ verdict, locale }: { verdict: Verdict; locale?: Lo
   const typeName = type ? (loc === "sw" ? type.name_sw : type.name_en) : verdict.scamType?.replaceAll("_", " ");
   const confWord = verdict.confidence >= 0.75 ? t(loc, "verdict.confHigh") : verdict.confidence >= 0.45 ? t(loc, "verdict.confMedium") : t(loc, "verdict.confLow");
   return (
-    <section className="card fade-up" aria-live="polite" style={{ padding: 20, borderTop: `6px solid ${RISK_COLOR[verdict.risk]}` }}>
+    <section className="card fade-up" aria-live="polite" style={{ padding: 20, borderTop: `6px solid ${RISK_COLOR[verdict.risk]}`, boxShadow: "var(--shadow-2)" }}>
       <RiskBadge risk={verdict.risk} label={t(loc, `verdict.${verdict.risk}`)} />
-      {typeName ? <h2 className="display" style={{ fontSize: 28, lineHeight: 1.2, margin: "12px 0 0" }}>{typeName}</h2> : null}
+      {typeName ? <h2 className="display" style={{ fontSize: 32, lineHeight: 1.15, margin: "12px 0 0" }}>{typeName}</h2> : null}
       <p className="eyebrow" style={{ marginTop: 18 }}>{t(loc, "verdict.confidence")}</p>
       <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
         <div style={{ flex: 1 }}><StripedMeter value={verdict.confidence} color={RISK_COLOR[verdict.risk]} label={t(loc, "verdict.confidence")} /></div>

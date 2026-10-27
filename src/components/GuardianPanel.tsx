@@ -98,7 +98,7 @@ export function GuardianPanel() {
           ) : <p style={{ margin: 0 }}>{t(locale, "guardian.empty")}</p>}
       </section>
 
-      {message ? <p role="status" className="card fade-up" style={{ padding: 16, marginTop: 16 }}>{message}</p> : null}
+      {message ? <p role="status" className="card" style={{ padding: 16, marginTop: 16 }}>{message}</p> : null}
     </div>
   );
 }
