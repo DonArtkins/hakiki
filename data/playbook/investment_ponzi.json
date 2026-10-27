@@ -1,0 +1,19 @@
+{
+  "id": "investment_ponzi",
+  "name_en": "Guaranteed-returns investment",
+  "name_sw": "Uwekezaji wa faida ya uhakika",
+  "steps_en": [
+    "Do not invest or recruit others",
+    "Check whether the firm is licensed by the CMA",
+    "Report it to the DCI on 0800 722 203"
+  ],
+  "steps_sw": [
+    "Usiwekeze wala kuwashawishi wengine",
+    "Angalia kama kampuni ina leseni ya CMA",
+    "Ripoti kwa DCI kwa 0800 722 203"
+  ],
+  "contacts": [
+    "dci",
+    "333"
+  ]
+}

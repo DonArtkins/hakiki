@@ -1,0 +1,18 @@
+{
+  "id": "silent_stk",
+  "name_en": "Silent STK prompt",
+  "name_sw": "Ombi la PIN la kimya",
+  "steps_en": [
+    "Cancel the prompt and never enter your PIN",
+    "Wait and check your M-Pesa statement",
+    "Report the number to 333"
+  ],
+  "steps_sw": [
+    "Sitisha ombi hilo na usiweke PIN yako",
+    "Subiri kisha angalia taarifa yako ya M-Pesa",
+    "Ripoti namba hiyo kwa 333"
+  ],
+  "contacts": [
+    "333"
+  ]
+}

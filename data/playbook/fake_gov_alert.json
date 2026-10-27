@@ -1,0 +1,18 @@
+{
+  "id": "fake_gov_alert",
+  "name_en": "Fake government alert",
+  "name_sw": "Tahadhari bandia ya serikali",
+  "steps_en": [
+    "Do not pay through a link in the message",
+    "Type the official government portal yourself",
+    "Call the agency on a number from its official site"
+  ],
+  "steps_sw": [
+    "Usilipe kupitia kiungo kilicho kwenye ujumbe",
+    "Andika tovuti rasmi ya serikali mwenyewe",
+    "Mpigie afisa kupitia namba iliyo kwenye tovuti rasmi"
+  ],
+  "contacts": [
+    "dci"
+  ]
+}

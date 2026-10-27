@@ -1,0 +1,19 @@
+{
+  "id": "fake_job",
+  "name_en": "Fake job fee",
+  "name_sw": "Ada bandia ya kazi",
+  "steps_en": [
+    "Do not pay for a job, uniform, medical or training",
+    "Verify the employer through its official contacts",
+    "Report the advert to 333"
+  ],
+  "steps_sw": [
+    "Usilipe ada ya kazi, sare, vipimo wala mafunzo",
+    "Thibitisha mwajiri kupitia mawasiliano yake rasmi",
+    "Ripoti tangazo hilo kwa 333"
+  ],
+  "contacts": [
+    "333",
+    "dci"
+  ]
+}

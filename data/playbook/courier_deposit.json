@@ -1,0 +1,18 @@
+{
+  "id": "courier_deposit",
+  "name_en": "Courier deposit",
+  "name_sw": "Ada bandia ya mzigo",
+  "steps_en": [
+    "Do not pay a release or delivery deposit first",
+    "Call the courier on its official number",
+    "Ask the sender for the official tracking page"
+  ],
+  "steps_sw": [
+    "Usilipe ada ya kutoa au kupeleka mzigo kwanza",
+    "Mpigie msafirishaji kwa namba yake rasmi",
+    "Mwombe mtumaji ukurasa rasmi wa kufuatilia mzigo"
+  ],
+  "contacts": [
+    "dci"
+  ]
+}

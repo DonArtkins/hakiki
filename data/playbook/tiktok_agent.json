@@ -1,0 +1,18 @@
+{
+  "id": "tiktok_agent",
+  "name_en": "TikTok agent fee",
+  "name_sw": "Ada bandia ya wakala wa TikTok",
+  "steps_en": [
+    "Do not pay an agent to unlock or monetise an account",
+    "Use only the official TikTok app and help centre",
+    "Report the account and message"
+  ],
+  "steps_sw": [
+    "Usimlipie wakala kufungua au kupata mapato kwenye akaunti",
+    "Tumia app rasmi ya TikTok na kituo chake cha msaada tu",
+    "Ripoti akaunti na ujumbe huo"
+  ],
+  "contacts": [
+    "333"
+  ]
+}

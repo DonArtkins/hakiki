@@ -1,0 +1,14 @@
+{
+  "brand.tagline": "Hakiki kabla ya kutuma.",
+  "home.intro": "Bandika ujumbe au shiriki picha ya skrini. Hakiki huangalia kabla hujatuma pesa.",
+  "home.placeholder": "Bandika ujumbe hapa",
+  "home.upload": "Pakia picha ya skrini",
+  "home.submit": "Hakiki",
+  "home.samples": "Jaribu mfano:",
+  "verdict.safe": "Inaonekana halisi, lakini kuwa mwangalifu.",
+  "verdict.suspicious": "Kuwa mwangalifu. Hii inaonekana ya kutilia shaka.",
+  "verdict.high": "Huenda huu ni utapeli.",
+  "verdict.unclear": "Hatujabaini bado.",
+  "verdict.next": "Cha kufanya sasa",
+  "disclaimer": "Si asilimia 100. Ukiwa na shaka, piga 333 au DCI 0800 722 203."
+}

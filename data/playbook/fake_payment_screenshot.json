@@ -1,0 +1,18 @@
+{
+  "id": "fake_payment_screenshot",
+  "name_en": "Fake payment screenshot",
+  "name_sw": "Picha bandia ya malipo",
+  "steps_en": [
+    "Do not release goods based on a screenshot",
+    "Check your own M-Pesa SMS, till or statement",
+    "Ask the buyer to wait until the payment appears"
+  ],
+  "steps_sw": [
+    "Usitoe bidhaa kwa kutegemea picha ya skrini",
+    "Angalia SMS yako ya M-Pesa, till au taarifa yako",
+    "Mwombe mnunuzi asubiri hadi malipo yaonekane"
+  ],
+  "contacts": [
+    "334"
+  ]
+}

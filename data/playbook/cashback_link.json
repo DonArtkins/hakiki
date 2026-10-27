@@ -1,0 +1,19 @@
+{
+  "id": "cashback_link",
+  "name_en": "Fake cashback link",
+  "name_sw": "Kiungo bandia cha zawadi",
+  "steps_en": [
+    "Do not tap the link or enter details",
+    "Open the official app or type the real website yourself",
+    "Report the message to 333"
+  ],
+  "steps_sw": [
+    "Usibonyeze kiungo wala kuweka taarifa zako",
+    "Fungua app rasmi au andika tovuti halisi mwenyewe",
+    "Ripoti ujumbe huo kwa 333"
+  ],
+  "contacts": [
+    "333",
+    "dci"
+  ]
+}

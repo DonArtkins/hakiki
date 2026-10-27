@@ -1,0 +1,19 @@
+{
+  "id": "sim_swap",
+  "name_en": "SIM swap / OTP phishing",
+  "name_sw": "Wizi wa laini na OTP",
+  "steps_en": [
+    "Do not share any OTP sent to your phone",
+    "Call Safaricom on 100 from another phone",
+    "Lock bank and mobile-money accounts, then change PINs"
+  ],
+  "steps_sw": [
+    "Usitoe OTP yoyote iliyotumwa kwenye simu yako",
+    "Piga Safaricom 100 ukitumia simu nyingine",
+    "Funga akaunti za benki na pesa za simu, kisha badili PIN"
+  ],
+  "contacts": [
+    "safaricom_care",
+    "333"
+  ]
+}

@@ -1,0 +1,16 @@
+# Hakiki (tracked). Baseline private files are excluded via .git/info/exclude, never here.
+node_modules/
+.next/
+out/
+dist/
+coverage/
+.turbo/
+*.log
+.env*
+!.env.example
+.vercel
+*.tsbuildinfo
+next-env.d.ts
+evals/report.local.md
+public/cards/*.png
+!public/cards/.gitkeep

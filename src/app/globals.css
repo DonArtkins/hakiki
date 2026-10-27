@@ -1,0 +1,39 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: #FAF8F4; --surface: #FFFFFF; --ink: #14201A; --muted: #5B6B62;
+  --brand: #0F6B4F; --brand-ink: #FFFFFF; --safe: #1E8E5A; --warn: #B7791F;
+  --danger: #C0392B; --unclear: #5B6B8C; --highlight: #FFE9A8; --border: #E4E0D8;
+  --font-display: "Fraunces", Georgia, serif;
+  --font-sans: Inter, ui-sans-serif, system-ui, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #101412; --surface: #18201C; --ink: #EEF3EF; --muted: #9DB0A5;
+    --brand: #3DDC97; --brand-ink: #06231A; --safe: #4ADE9A; --warn: #F5B544;
+    --danger: #FF6B5B; --unclear: #9AA8CF; --highlight: #5A4A12; --border: #2A3630;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #101412; --surface: #18201C; --ink: #EEF3EF; --muted: #9DB0A5;
+  --brand: #3DDC97; --brand-ink: #06231A; --safe: #4ADE9A; --warn: #F5B544;
+  --danger: #FF6B5B; --unclear: #9AA8CF; --highlight: #5A4A12; --border: #2A3630;
+}
+* { box-sizing: border-box; }
+html { background: var(--bg); }
+body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--font-sans); font-size: 16px; line-height: 1.55; }
+a { color: var(--brand); }
+button, input, textarea, select { font: inherit; }
+:focus-visible { outline: 3px solid var(--highlight); outline-offset: 2px; }
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: 0 4px 16px rgb(0 0 0 / .06); }
+.chip { border-radius: 999px; border: 1px solid var(--border); padding: .35rem .7rem; font-size: .875rem; background: var(--surface); }
+.btn-primary { min-height: 48px; border-radius: 999px; border: 0; background: var(--brand); color: var(--brand-ink); padding: .8rem 1.2rem; font-weight: 700; cursor: pointer; }
+.btn-secondary { min-height: 48px; border-radius: 999px; border: 1px solid var(--border); background: var(--surface); color: var(--ink); padding: .8rem 1.2rem; cursor: pointer; }
+mark.evidence { background: var(--highlight); color: inherit; border-radius: 4px; padding: 0 .12em; }
+.fade-up { animation: fadeUp 220ms ease-out both; }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+}

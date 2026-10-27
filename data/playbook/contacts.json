@@ -1,0 +1,27 @@
+{
+  "333": {
+    "label_en": "Report scam to Safaricom",
+    "label_sw": "Ripoti utapeli kwa Safaricom",
+    "value": "333"
+  },
+  "334": {
+    "label_en": "Verify a message with Safaricom",
+    "label_sw": "Thibitisha ujumbe kwa Safaricom",
+    "value": "334"
+  },
+  "dci": {
+    "label_en": "DCI hotline",
+    "label_sw": "Simu ya DCI",
+    "value": "0800 722 203"
+  },
+  "safaricom_care": {
+    "label_en": "Safaricom customer care",
+    "label_sw": "Huduma kwa wateja ya Safaricom",
+    "value": "100 / 200"
+  },
+  "safaricom_whatsapp": {
+    "label_en": "Safaricom WhatsApp",
+    "label_sw": "WhatsApp ya Safaricom",
+    "value": "0709 570 000"
+  }
+}

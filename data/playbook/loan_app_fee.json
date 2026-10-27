@@ -1,0 +1,19 @@
+{
+  "id": "loan_app_fee",
+  "name_en": "Loan app upfront fee",
+  "name_sw": "Ada ya awali ya mkopo",
+  "steps_en": [
+    "Do not pay a fee to release a loan",
+    "Use lenders whose fees are deducted from the loan",
+    "Report the app and message to the DCI"
+  ],
+  "steps_sw": [
+    "Usilipe ada ili mkopo utolewe",
+    "Tumia wakopeshaji ambao ada hukatwa kwenye mkopo",
+    "Ripoti app na ujumbe huo kwa DCI"
+  ],
+  "contacts": [
+    "dci",
+    "333"
+  ]
+}

@@ -1,0 +1,14 @@
+{"id": "ev01", "input": {"text": "Confirmed. Ksh 15,000 sent to you by mistake. Please reverse it now, tuma kwa hii number 0712345678."}, "label": {"risk": "high", "scam_type": "fake_reversal", "benign": false}, "locale": "en"}
+{"id": "ev02", "input": {"text": "Tumetuma pesa kimakosa. Rudisha hiyo pesa kwa 0722000111 sasa hivi."}, "label": {"risk": "high", "scam_type": "fake_reversal", "benign": false}, "locale": "sw"}
+{"id": "ev03", "input": {"text": "Safaricom customer care calling. Your account will be blocked. Send your PIN and OTP now."}, "label": {"risk": "high", "scam_type": "fake_customer_care", "benign": false}, "locale": "en"}
+{"id": "ev04", "input": {"text": "Congratulations you have won a cashback bonus. Claim now at safaricom-bonus.xyz/claim"}, "label": {"risk": "high", "scam_type": "cashback_link", "benign": false}, "locale": "en"}
+{"id": "ev05", "input": {"text": "Pay a registration fee of Ksh 500 to unlock this job. Real training starts after payment."}, "label": {"risk": "high", "scam_type": "fake_job", "benign": false}, "locale": "en"}
+{"id": "ev06", "input": {"text": "Double your money in 7 days. Guaranteed returns with AI trading. Maradufu."}, "label": {"risk": "high", "scam_type": "investment_ponzi", "benign": false}, "locale": "sw"}
+{"id": "ev07", "input": {"text": "Pay a processing fee to release your loan today. Ada ya usajili ni Ksh 300."}, "label": {"risk": "high", "scam_type": "loan_app_fee", "benign": false}, "locale": "sw"}
+{"id": "ev08", "input": {"text": "KRA alert: pay your fine now at kra-payments.top before your account is blocked."}, "label": {"risk": "high", "scam_type": "fake_gov_alert", "benign": false}, "locale": "en"}
+{"id": "ev09", "input": {"text": "Your parcel is held. Pay the courier deposit here bit.ly/parcel-ke"}, "label": {"risk": "suspicious", "scam_type": "courier_deposit", "benign": false}, "locale": "en"}
+{"id": "ev10", "input": {"text": "Umeshinda zawadi. Bonyeza kiungo hiki kudai bonus yako sasa hivi."}, "label": {"risk": "suspicious", "scam_type": "cashback_link", "benign": false}, "locale": "sw"}
+{"id": "ev11", "input": {"text": "Habari, nitakuwa nyumbani saa mbili. Tafadhali leta sukari."}, "label": {"risk": "safe", "scam_type": null, "benign": true}, "locale": "sw"}
+{"id": "ev12", "input": {"text": "Meeting moved to 3pm tomorrow. Please bring the signed form."}, "label": {"risk": "safe", "scam_type": null, "benign": true}, "locale": "en"}
+{"id": "ev13", "input": {"text": "Your airtime balance is Ksh 42. Thank you for using our service."}, "label": {"risk": "safe", "scam_type": null, "benign": true}, "locale": "en"}
+{"id": "ev14", "input": {"text": "Delivery notice: your package will arrive tomorrow between 9am and 1pm."}, "label": {"risk": "safe", "scam_type": null, "benign": true}, "locale": "en"}

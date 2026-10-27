@@ -1,0 +1,18 @@
+{
+  "id": "fake_betting",
+  "name_en": "Fake betting bonus",
+  "name_sw": "Bonasi bandia ya kubeti",
+  "steps_en": [
+    "Do not deposit money to unlock winnings",
+    "Use only licensed betting operators",
+    "Report the site and message"
+  ],
+  "steps_sw": [
+    "Usiweke pesa kufungua ushindi",
+    "Tumia waendeshaji wenye leseni tu",
+    "Ripoti tovuti na ujumbe huo"
+  ],
+  "contacts": [
+    "dci"
+  ]
+}

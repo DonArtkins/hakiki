@@ -1,0 +1,19 @@
+{
+  "id": "fake_mpesa_sms",
+  "name_en": "Fake M-Pesa SMS",
+  "name_sw": "SMS bandia ya M-Pesa",
+  "steps_en": [
+    "Do not act on the SMS alone",
+    "Check your real balance and statement",
+    "Forward the message to 334 to verify"
+  ],
+  "steps_sw": [
+    "Usitende kwa kutegemea SMS hiyo pekee",
+    "Angalia salio na taarifa yako halisi",
+    "Tuma ujumbe huo kwa 334 kuuthibitisha"
+  ],
+  "contacts": [
+    "334",
+    "333"
+  ]
+}

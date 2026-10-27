@@ -1,0 +1,18 @@
+{
+  "id": "tuma_number",
+  "name_en": "Send to another number",
+  "name_sw": "Tuma kwa namba nyingine",
+  "steps_en": [
+    "Do not send to a number given in a strange message",
+    "Call the person on a number you already know",
+    "Report the message to 333"
+  ],
+  "steps_sw": [
+    "Usitume kwa namba uliyopewa kwenye ujumbe wa ajabu",
+    "Mpigie mtu huyo kwa namba unayoijua tayari",
+    "Ripoti ujumbe huo kwa 333"
+  ],
+  "contacts": [
+    "333"
+  ]
+}

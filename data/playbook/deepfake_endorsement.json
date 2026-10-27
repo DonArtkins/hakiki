@@ -1,0 +1,18 @@
+{
+  "id": "deepfake_endorsement",
+  "name_en": "Deepfake endorsement",
+  "name_sw": "Tangazo bandia la mtu maarufu",
+  "steps_en": [
+    "Do not invest because a celebrity appears in a video",
+    "Check the person's official verified channels",
+    "Report the video on the platform"
+  ],
+  "steps_sw": [
+    "Usiwekeze kwa sababu mtu maarufu anaonekana kwenye video",
+    "Angalia kurasa rasmi zilizothibitishwa za mtu huyo",
+    "Ripoti video hiyo kwenye jukwaa husika"
+  ],
+  "contacts": [
+    "dci"
+  ]
+}

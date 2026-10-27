@@ -1,0 +1,19 @@
+{
+  "id": "fake_reversal",
+  "name_en": "Fake reversal",
+  "name_sw": "Utapeli wa kurudisha pesa",
+  "steps_en": [
+    "Do not send any money back",
+    "Check your real M-Pesa balance on *334# or the app",
+    "Forward the SMS to 333"
+  ],
+  "steps_sw": [
+    "Usirudishe pesa yoyote",
+    "Angalia salio lako halisi la M-Pesa kwa *334# au app",
+    "Tuma SMS hiyo kwa 333"
+  ],
+  "contacts": [
+    "333",
+    "334"
+  ]
+}

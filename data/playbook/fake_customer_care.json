@@ -1,0 +1,19 @@
+{
+  "id": "fake_customer_care",
+  "name_en": "Fake customer care",
+  "name_sw": "Huduma bandia kwa wateja",
+  "steps_en": [
+    "Hang up and do not share a PIN, OTP or ID",
+    "Call the official number 100 or 200 yourself",
+    "Report the caller to 333"
+  ],
+  "steps_sw": [
+    "Kata simu na usitoe PIN, OTP wala namba ya kitambulisho",
+    "Piga namba rasmi 100 au 200 mwenyewe",
+    "Ripoti mpigaji kwa 333"
+  ],
+  "contacts": [
+    "333",
+    "safaricom_care"
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "brand.tagline": "Check before you send.",
+  "home.intro": "Paste a message or share a screenshot. Hakiki checks it before you send money.",
+  "home.placeholder": "Paste the message here",
+  "home.upload": "Upload screenshot",
+  "home.submit": "Check it",
+  "home.samples": "Try a sample:",
+  "verdict.safe": "Looks genuine, but stay careful.",
+  "verdict.suspicious": "Be careful. This looks suspicious.",
+  "verdict.high": "Likely a scam.",
+  "verdict.unclear": "We cannot tell yet.",
+  "verdict.next": "What to do now",
+  "disclaimer": "Not 100%. If unsure, call 333 or DCI 0800 722 203."
+}
