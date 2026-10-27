@@ -1,26 +1,28 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import "./globals.css";
+import { Fraunces, Inter } from "next/font/google";
+import { LocaleProvider, SiteFooter, SiteHeader } from "@/components/LocaleProvider";
+
+const display = Fraunces({ subsets: ["latin"], weight: ["600", "700"], variable: "--font-display" });
+const sans = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
 export const metadata: Metadata = {
-  title: "Hakiki — Check before you send",
+  title: "Hakiki: Check before you send",
   description: "Scam-verification agent for Kenyan mobile-money users.",
   manifest: "/manifest.webmanifest",
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en">
+    <html lang="en" className={`${display.variable} ${sans.variable}`}>
       <body>
-        <header style={{ borderBottom: "1px solid var(--border)", background: "var(--surface)" }}>
-          <div style={{ maxWidth: 880, margin: "0 auto", padding: "14px 16px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-            <Link href="/" style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 24, color: "var(--brand)", textDecoration: "none" }}>hakiki</Link>
-            <nav aria-label="Main" style={{ display: "flex", gap: 14, fontSize: 14 }}>
-              <Link href="/">Check</Link><Link href="/guardian">Guardian</Link>
-            </nav>
+        <LocaleProvider>
+          <div className="app-frame">
+            <SiteHeader />
+            <main className="page">{children}</main>
+            <SiteFooter />
           </div>
-        </header>
-        <main style={{ maxWidth: 880, margin: "0 auto", padding: "20px 16px 48px" }}>{children}</main>
+        </LocaleProvider>
       </body>
     </html>
   );
