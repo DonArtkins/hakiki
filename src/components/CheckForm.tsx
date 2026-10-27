@@ -1,13 +1,15 @@
 "use client";
 
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import type { RuleFinding, Verdict } from "@/engine/schemas";
 import type { Span } from "@/engine/ground";
 import { SAMPLES } from "@/lib/samples";
 import { t, type Locale } from "@/lib/i18n";
+import { SegmentedControl, SeverityDot, StageStepper, type StepState } from "./ui";
 import { VerdictCard } from "./VerdictCard";
 
 type Stage = "extracting" | "rules" | "reasoning";
+const STAGE_ORDER: Stage[] = ["extracting", "rules", "reasoning"];
 interface RulesEvent { findings: RuleFinding[]; priorScore: number; spans: Span[] }
 
 function Highlighted({ text, spans }: { text: string; spans: Span[] }) {
@@ -23,7 +25,13 @@ function Highlighted({ text, spans }: { text: string; spans: Span[] }) {
     out.push({ text: text.slice(at), mark: false });
     return out;
   }, [text, spans]);
-  return <p style={{ whiteSpace: "pre-wrap", overflowWrap: "anywhere" }}>{parts.map((p, i) => p.mark ? <mark className="evidence" key={i}>{p.text}</mark> : <span key={i}>{p.text}</span>)}</p>;
+  return (
+    <p style={{ whiteSpace: "pre-wrap", overflowWrap: "anywhere", margin: 0 }}>
+      {parts.map((p, i) => p.mark
+        ? <mark className="evidence" key={i} style={{ animationDelay: `${Math.min(i * 60, 600)}ms` }}>{p.text}</mark>
+        : <span key={i}>{p.text}</span>)}
+    </p>
+  );
 }
 
 export function CheckForm() {
@@ -35,8 +43,19 @@ export function CheckForm() {
   const [rules, setRules] = useState<RulesEvent | null>(null);
   const [verdict, setVerdict] = useState<Verdict | null>(null);
   const [spans, setSpans] = useState<Span[]>([]);
+  const [checkId, setCheckId] = useState<string | null>(null);
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
+  const [online, setOnline] = useState(true);
+  const [actionNote, setActionNote] = useState("");
+
+  useEffect(() => {
+    const update = () => setOnline(navigator.onLine);
+    update();
+    window.addEventListener("online", update);
+    window.addEventListener("offline", update);
+    return () => { window.removeEventListener("online", update); window.removeEventListener("offline", update); };
+  }, []);
 
   async function onFile(file: File | undefined) {
     if (!file) return;
@@ -49,12 +68,20 @@ export function CheckForm() {
     }).catch(() => "");
   }
 
+  function removeImage() { setImageName(""); imageRef.current = ""; }
+
+  function reset(nextText = "") {
+    setText(nextText); setVerdict(null); setRules(null); setStages([]); setSpans([]);
+    setError(""); setCheckId(null); setActionNote(""); removeImage();
+  }
+
   async function submit(e: React.FormEvent) {
     e.preventDefault();
-    setBusy(true); setError(""); setVerdict(null); setRules(null); setStages([]); setSpans([]);
+    if (!online) { setError(t(locale, "error.offline")); return; }
+    setBusy(true); setError(""); setVerdict(null); setRules(null); setStages([]); setSpans([]); setCheckId(null); setActionNote("");
     try {
       const res = await fetch("/api/check", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ text, imageDataUrl: imageRef.current || undefined, locale }) });
-      if (!res.ok || !res.body) throw new Error((await res.text()).slice(0, 160) || "Check failed");
+      if (!res.ok || !res.body) throw new Error("failed");
       const reader = res.body.getReader();
       const decoder = new TextDecoder();
       let buf = "";
@@ -67,48 +94,125 @@ export function CheckForm() {
         for (const chunk of chunks) {
           const line = chunk.split("\n").find((l) => l.startsWith("data:"));
           if (!line) continue;
-          const event = JSON.parse(line.slice(5)) as { type: string; stage?: Stage; findings?: RuleFinding[]; priorScore?: number; spans?: Span[]; verdict?: Verdict; error?: { message: string } };
+          const event = JSON.parse(line.slice(5)) as { type: string; stage?: Stage; findings?: RuleFinding[]; priorScore?: number; spans?: Span[]; verdict?: Verdict; checkId?: string; error?: { message: string } };
           if (event.type === "stage" && event.stage) setStages((s) => [...new Set([...s, event.stage as Stage])]);
           if (event.type === "rules") { setRules({ findings: event.findings ?? [], priorScore: event.priorScore ?? 0, spans: event.spans ?? [] }); setSpans(event.spans ?? []); }
           if (event.type === "verdict" && event.verdict) { setVerdict(event.verdict); if (event.spans?.length) setSpans(event.spans); if (event.verdict.risk === "high" && "vibrate" in navigator) navigator.vibrate(40); }
-          if (event.type === "error") setError(event.error?.message ?? "Check failed");
+          if (event.type === "done" && event.checkId) setCheckId(event.checkId);
+          if (event.type === "error") setError(event.error?.message ?? t(locale, "error.generic"));
         }
       }
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Check failed");
+    } catch {
+      setError(online ? t(locale, "error.generic") : t(locale, "error.offline"));
     } finally {
       setBusy(false);
     }
   }
 
+  async function act(kind: "share" | "wrong") {
+    if (!checkId) return;
+    try {
+      if (kind === "share") {
+        const res = await fetch(`/api/checks/${checkId}/share`, { method: "POST" });
+        const data = (await res.json()) as { slug?: string };
+        if (!data.slug) throw new Error("failed");
+        await navigator.clipboard.writeText(`${window.location.origin}/s/${data.slug}`);
+        setActionNote(t(locale, "action.shareCopied"));
+      } else {
+        const res = await fetch(`/api/checks/${checkId}/feedback`, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ verdict_feedback: "wrong_scam" }) });
+        if (!res.ok) throw new Error("failed");
+        setActionNote(t(locale, "action.thanks"));
+      }
+    } catch {
+      setActionNote(kind === "share" ? t(locale, "action.shareFailed") : t(locale, "action.feedbackFailed"));
+    }
+  }
+
+  const stepperSteps = STAGE_ORDER.map((s, i) => {
+    const state: StepState = verdict || stages.length > i + 1 || (stages.includes(s) && !busy && !verdict) ? "done" : stages.includes(s) ? "active" : "pending";
+    return { label: t(locale, `stage.${s}`), state };
+  });
+  const showStepper = busy || verdict !== null || stages.length > 0;
+
   return (
     <div>
-      <div style={{ display: "flex", justifyContent: "space-between", gap: 12, alignItems: "start", flexWrap: "wrap" }}>
-        <div>
-          <h1 style={{ fontFamily: "var(--font-display)", fontSize: 34, lineHeight: 1.1, margin: "0 0 8px" }}>{t(locale, "brand.tagline")}</h1>
-          <p style={{ color: "var(--muted)", maxWidth: 620 }}>{t(locale, "home.intro")}</p>
+      <div style={{ display: "flex", justifyContent: "space-between", gap: 12, alignItems: "flex-start", flexWrap: "wrap" }}>
+        <div style={{ maxWidth: 620 }}>
+          <h1 className="display" style={{ fontSize: 36, lineHeight: 1.1, margin: "0 0 8px" }}>{t(locale, "brand.tagline")}</h1>
+          <p style={{ color: "var(--muted)", margin: 0 }}>{t(locale, "home.intro")}</p>
         </div>
-        <div role="group" aria-label="Language" style={{ display: "flex", gap: 8 }}>
-          <button type="button" className="btn-secondary" onClick={() => setLocale("en")} aria-pressed={locale === "en"}>EN</button>
-          <button type="button" className="btn-secondary" onClick={() => setLocale("sw")} aria-pressed={locale === "sw"}>SW</button>
-        </div>
+        <SegmentedControl label="Language" value={locale} onChange={setLocale} options={[{ value: "en", label: "EN" }, { value: "sw", label: "SW" }]} />
       </div>
-      <form onSubmit={submit} className="card" style={{ padding: 16 }}>
-        <label htmlFor="message" style={{ fontWeight: 700 }}>{locale === "sw" ? "Ujumbe unaoshuku" : "Suspicious message"}</label>
-        <textarea id="message" value={text} onChange={(e) => setText(e.target.value)} placeholder={t(locale, "home.placeholder")} rows={7} style={{ width: "100%", marginTop: 8, borderRadius: 12, border: "1px solid var(--border)", padding: 12, background: "var(--bg)", color: "var(--ink)" }} />
+
+      <form onSubmit={submit} className="card" style={{ padding: 20, marginTop: 20 }}>
+        <label htmlFor="message" style={{ fontWeight: 700 }}>{t(locale, "home.label")}</label>
+        <textarea id="message" className="field" value={text} onChange={(e) => setText(e.target.value)} placeholder={t(locale, "home.placeholder")} rows={7} style={{ marginTop: 10 }} />
         <div style={{ display: "flex", gap: 10, flexWrap: "wrap", alignItems: "center", marginTop: 12 }}>
-          <label className="btn-secondary" style={{ display: "inline-flex", alignItems: "center" }}>{t(locale, "home.upload")}<input type="file" accept="image/png,image/jpeg,image/webp" style={{ display: "none" }} onChange={(e) => void onFile(e.target.files?.[0])} /></label>
-          {imageName ? <span style={{ fontSize: 14, color: "var(--muted)" }}>{imageName}</span> : null}
-          <button className="btn-primary" disabled={busy || (!text.trim() && !imageName)} type="submit">{busy ? (locale === "sw" ? "Inakagua…" : "Checking…") : t(locale, "home.submit")}</button>
+          <label className="btn-secondary">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 16V4m0 0 4 4m-4-4L8 8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /><path d="M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" /></svg>
+            {t(locale, "home.upload")}
+            <input type="file" accept="image/png,image/jpeg,image/webp" style={{ display: "none" }} onChange={(e) => void onFile(e.target.files?.[0])} />
+          </label>
+          {imageName ? (
+            <span className="chip" style={{ cursor: "default" }}>{imageName}
+              <button type="button" onClick={removeImage} aria-label={t(locale, "home.imageRemove")} style={{ border: 0, background: "transparent", cursor: "pointer", fontWeight: 700, minWidth: 32, minHeight: 32 }}>x</button>
+            </span>
+          ) : null}
+          <button className="btn-primary" disabled={busy || (!text.trim() && !imageName)} type="submit" aria-busy={busy}>
+            {busy ? t(locale, "home.checking") : t(locale, "home.submit")}
+          </button>
+          {verdict ? <button type="button" className="btn-secondary" onClick={() => reset()}>{t(locale, "home.another")}</button> : null}
         </div>
-        <p style={{ fontSize: 14, color: "var(--muted)" }}>{t(locale, "home.samples")}</p>
-        <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>{SAMPLES.map((s) => <button type="button" key={s.id} className="chip" onClick={() => setText(s.text)}>{locale === "sw" ? s.label_sw : s.label_en}</button>)}</div>
+        <p style={{ fontSize: 14, color: "var(--muted)", display: "flex", gap: 8, alignItems: "center", margin: "14px 0 0" }}>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="5" y="10" width="14" height="10" rx="2" stroke="currentColor" strokeWidth="2" /><path d="M8 10V7a4 4 0 0 1 8 0v3" stroke="currentColor" strokeWidth="2" /></svg>
+          {t(locale, "home.privacy")}
+        </p>
+        <p className="eyebrow" style={{ marginTop: 18 }}>{t(locale, "home.samples")}</p>
+        <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+          {SAMPLES.map((s) => <button type="button" key={s.id} className="chip" onClick={() => reset(s.text)}>{locale === "sw" ? s.label_sw : s.label_en}</button>)}
+        </div>
       </form>
-      {error ? <p role="alert" className="card" style={{ padding: 14, marginTop: 14, borderColor: "var(--danger)" }}>{error}</p> : null}
-      {stages.length ? <div aria-live="polite" style={{ display: "flex", gap: 8, flexWrap: "wrap", marginTop: 14 }}>{stages.map((s) => <span className="chip" key={s}>{s === "extracting" ? (locale === "sw" ? "Inasoma ujumbe…" : "Reading the message…") : s === "rules" ? (locale === "sw" ? "Inakagua dalili…" : "Running Kenya scam checks…") : (locale === "sw" ? "Inachambua…" : "Thinking it through…")}</span>)}</div> : null}
-      {text && (rules || verdict) ? <section className="card" style={{ padding: 16, marginTop: 14 }}><h2 style={{ marginTop: 0 }}>{locale === "sw" ? "Ujumbe wako" : "Your message"}</h2><Highlighted text={text} spans={spans} /></section> : null}
-      {rules ? <section className="card" style={{ padding: 16, marginTop: 14 }}><h2 style={{ marginTop: 0 }}>{locale === "sw" ? "Dalili zilizopatikana" : "Evidence found"}</h2>{rules.findings.length ? <ul>{rules.findings.map((f) => <li key={f.id}><strong>{f.id}</strong> — {f.evidence}</li>)}</ul> : <p>{locale === "sw" ? "Hakuna dalili ya sheria iliyopatikana." : "No rule findings yet."}</p>}</section> : null}
-      {verdict ? <div style={{ marginTop: 14 }}><VerdictCard verdict={verdict} /></div> : null}
+
+      {showStepper ? <div style={{ marginTop: 16 }}><StageStepper steps={stepperSteps} /></div> : null}
+
+      {error ? (
+        <section role="alert" className="card fade-up" style={{ padding: 18, marginTop: 16, borderColor: "var(--danger)" }}>
+          <p style={{ margin: 0 }}>{error}</p>
+        </section>
+      ) : null}
+
+      {text && (rules || verdict) ? (
+        <section className="card fade-up" style={{ padding: 20, marginTop: 16 }}>
+          <h2 className="eyebrow">{t(locale, "check.message")}</h2>
+          <Highlighted text={text} spans={spans} />
+        </section>
+      ) : null}
+
+      {rules ? (
+        <section className="card fade-up" style={{ padding: 20, marginTop: 16 }}>
+          <h2 className="eyebrow">{t(locale, "check.evidence")}</h2>
+          {rules.findings.length ? (
+            <ul className="evidence-list">
+              {rules.findings.map((f) => <li key={f.id}><SeverityDot severity={f.severity} /><span>{f.evidence}</span></li>)}
+            </ul>
+          ) : <p style={{ margin: 0 }}>{t(locale, "check.noEvidence")}</p>}
+        </section>
+      ) : null}
+
+      {verdict ? (
+        <div style={{ marginTop: 16 }}>
+          <VerdictCard verdict={verdict} locale={locale} />
+          <div style={{ display: "flex", gap: 10, flexWrap: "wrap", marginTop: 14 }}>
+            <a className="btn-primary" href="tel:333" style={{ textDecoration: "none" }}>
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a12 12 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2Z" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" /></svg>
+              {t(locale, "action.call333")}
+            </a>
+            {checkId ? <button type="button" className="btn-secondary" onClick={() => void act("share")}>{t(locale, "action.share")}</button> : null}
+            {checkId ? <button type="button" className="btn-secondary" onClick={() => void act("wrong")}>{t(locale, "action.wrong")}</button> : null}
+          </div>
+          {actionNote ? <p role="status" style={{ color: "var(--muted)", marginTop: 10 }}>{actionNote}</p> : null}
+        </div>
+      ) : null}
     </div>
   );
 }

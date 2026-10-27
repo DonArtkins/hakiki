@@ -6,10 +6,10 @@ import { currentSubject } from "@/lib/session-server";
 
 export default async function ResultPage({ params }: { params: Promise<{ id: string }> }) {
   const me = await currentSubject();
-  if (!me || !dbConfigured()) return <p>Sign in on this device to see this result.</p>;
+  if (!me || !dbConfigured()) return <p>Open this result on the device you checked from. Results are tied to that device.</p>;
   const { id } = await params;
   const [row] = await getDb().select().from(schema.checks).where(and(eq(schema.checks.id, id), eq(schema.checks.subjectId, me.subjectId))).limit(1);
-  if (!row) return <p>Result not found.</p>;
+  if (!row) return <p>This result is not on this device. It may have been deleted.</p>;
   const verdict = { risk: row.risk, scamType: row.scamTypeId, confidence: row.confidence, reasons: row.reasons, nextSteps: row.nextSteps, needsMore: null, language: row.language } as unknown as Verdict;
   return <VerdictCard verdict={verdict} />;
 }

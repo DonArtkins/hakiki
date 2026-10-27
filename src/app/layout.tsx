@@ -1,6 +1,12 @@
 import type { Metadata } from "next";
+import { Fraunces, Inter } from "next/font/google";
 import Link from "next/link";
+import { Logo } from "@/components/ui";
+import en from "@/lib/i18n/en.json";
 import "./globals.css";
+
+const display = Fraunces({ subsets: ["latin"], weight: ["600", "700"], variable: "--font-display" });
+const sans = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
 export const metadata: Metadata = {
   title: "Hakiki — Check before you send",
@@ -10,17 +16,26 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en">
+    <html lang="en" className={`${display.variable} ${sans.variable}`}>
       <body>
-        <header style={{ borderBottom: "1px solid var(--border)", background: "var(--surface)" }}>
-          <div style={{ maxWidth: 880, margin: "0 auto", padding: "14px 16px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-            <Link href="/" style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 24, color: "var(--brand)", textDecoration: "none" }}>hakiki</Link>
-            <nav aria-label="Main" style={{ display: "flex", gap: 14, fontSize: 14 }}>
-              <Link href="/">Check</Link><Link href="/guardian">Guardian</Link>
-            </nav>
-          </div>
-        </header>
-        <main style={{ maxWidth: 880, margin: "0 auto", padding: "20px 16px 48px" }}>{children}</main>
+        <div className="app-frame">
+          <header className="site-header">
+            <div className="site-header-inner">
+              <Link href="/" className="wordmark"><Logo /><span className="wordmark-name">hakiki</span></Link>
+              <nav className="main-nav" aria-label="Main">
+                <Link className="nav-link" href="/">{en["nav.check"]}</Link>
+                <Link className="nav-link" href="/guardian">{en["nav.guardian"]}</Link>
+              </nav>
+            </div>
+          </header>
+          <main className="page">{children}</main>
+          <footer className="site-footer">
+            <div className="site-footer-inner">
+              <span>{en["footer.privacy"]}</span>
+              <span>{en["disclaimer"]}</span>
+            </div>
+          </footer>
+        </div>
       </body>
     </html>
   );
