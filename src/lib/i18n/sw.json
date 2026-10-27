@@ -118,5 +118,6 @@
   "dash.view": "Tazama",
   "dash.loadFailed": "Ukaguzi wako haukuweza kupakiwa. Angalia muunganisho wako, kisha pakia ukurasa upya.",
   "dash.none": "Hakuna bado",
+  "dash.noType": "Hakuna aina ya utapeli",
   "history.view": "Tazama matokeo"
 }

@@ -118,5 +118,6 @@
   "dash.view": "View",
   "dash.loadFailed": "Your checks could not be loaded. Check your connection, then reload this page.",
   "dash.none": "None yet",
+  "dash.noType": "No scam type",
   "history.view": "View result"
 }

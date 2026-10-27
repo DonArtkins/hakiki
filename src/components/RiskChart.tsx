@@ -25,7 +25,7 @@ export function RiskChart({ rows, locale }: { rows: CheckRow[]; locale: Locale }
         <h2 className="eyebrow">{t(locale, "dash.perDay")}</h2>
         {perDay.length ? (<>
           <svg viewBox="0 0 320 180" className="chart" role="img" aria-label={perDay.map((d) => `${d.day}: ${d.count}`).join(", ")}>
-            {perDay.map((d, i) => { const h = (d.count / maxDay) * 110; const x = 20 + (280 / Math.max(1, perDay.length)) * i; return (<g key={d.day}><rect x={x} y={140 - h} width="26" height={h} rx="5" fill="var(--brand)" /><text x={x + 13} y={160} textAnchor="middle" fontSize="10" fill="currentColor">{d.count}</text></g>); })}
+            {perDay.map((d, i) => { const slot = 280 / Math.max(1, perDay.length); const w = Math.min(26, Math.max(2, slot - 4)); const h = (d.count / maxDay) * 110; const x = 20 + slot * i; return (<g key={d.day}><rect x={x} y={140 - h} width={w} height={h} rx="5" fill="var(--brand)" /><text x={x + w / 2} y={160} textAnchor="middle" fontSize="10" fill="currentColor">{d.count}</text></g>); })}
           </svg>
           <p className="chart-words">{perDay.map((d) => `${d.day}: ${d.count}`).join(", ")}</p>
         </>) : <p>{t(locale, "dash.none")}</p>}

@@ -45,7 +45,7 @@ export function Studio() {
         </div>
         <aside className="machine-panel card" aria-label={t(locale, "studio.machine")}>
           <h2 className="eyebrow">{t(locale, "studio.machine")}</h2>
-          <MachineCanvas state={machine} label={`${t(locale, "studio.machine")}: ${stageLabel}`} fallback={<StageStepper steps={steps} />} />
+          <MachineCanvas state={machine} label={`${t(locale, "studio.machine")}: ${stageLabel}`} fallback={<div className="machine-fallback"><StageStepper steps={steps} /></div>} />
           <p role="status" className="machine-status">{stageLabel}</p>
           <div className="machine-stepper"><StageStepper steps={steps} /></div>
         </aside>

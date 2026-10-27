@@ -7,6 +7,7 @@ import { RiskBadge } from "./ui";
 import type { Risk } from "@/engine/schemas";
 
 export function typeName(id: string | null, locale: Locale): string {
+  if (!id || id === "unknown") return t(locale, "dash.noType");
   const found = TAXONOMY.find((x) => x.id === id);
   return found ? (locale === "sw" ? found.name_sw : found.name_en) : t(locale, "dash.none");
 }
